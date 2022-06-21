@@ -5,12 +5,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Class which handles all program input and output
+ */
 public class LibraryUI
 {
     static int invalidInput = -99;
     static DVDLibrary dvdLibrary;
     static Scanner input = new Scanner(System.in);
 
+
+    /**
+     * Main method
+     * @param args
+     * @throws IOException
+     * @throws ParseException
+     */
     public static void main(String[] args) throws IOException, ParseException
     {
         dvdLibrary = new DVDLibrary();
@@ -18,9 +28,13 @@ public class LibraryUI
         displayMenu();
     }
 
+    /**
+     * Displays the main menu to the user
+     * @throws IOException
+     */
     public static void displayMenu() throws IOException
     {
-
+        // Menu options
         System.out.println("-----------------------------");
         System.out.println("1 - View Library");
         System.out.println("2 - Add DVD to Library");
@@ -30,29 +44,9 @@ public class LibraryUI
         System.out.println("0 - Exit");
         System.out.println("-----------------------------");
         System.out.print("What would you like to do? (0-5): ");
+        int menuChoice = validateIntInput(0, 5);
 
-        int menuChoice;
-
-        while(true)
-        {
-            try{
-                menuChoice = Integer.parseInt(input.nextLine());
-
-                if(menuChoice < 0 || menuChoice > 5)
-                {
-                    System.out.print("Please enter a valid menu option (0, 1, 2, 3, 4 or 5): ");
-                }
-                else
-                {
-                    break;
-                }
-            }
-            catch(NumberFormatException e)
-            {
-                System.out.print("Please enter a valid menu option (0, 1, 2, 3, 4 or 5): ");
-            }
-        }
-
+        // Calls the method relevant to the menu choice
         switch (menuChoice)
         {
             case 1 -> viewDVDLibrary(true);
@@ -62,16 +56,23 @@ public class LibraryUI
             case 5 -> searchDVD();
             default ->
             {
+                // Calls the method to save the library and exits the program
                 dvdLibrary.saveLibrary();
                 System.out.println("Thank you for using DVD Library!");
                 System.out.println("=======================================================");
             }
         }
     }
+
+    /**
+     * Gets the new DVD inputs and adds it to the library
+     * @throws IOException
+     */
     public static void addDVD() throws IOException
     {
         System.out.println("----------------------- ADD DVD -----------------------");
 
+        // Get DVD inputs from the user
         String title = getTitleInput();
         Date date = getDateInput();
         MPAARating rating = getRatingInput();
@@ -79,77 +80,48 @@ public class LibraryUI
         String studio = getStudioInput();
         String note = getNoteInput();
 
+        // Creates a new DVD object and calls the method to add it to the library
         DVD dvd = new DVD(title, director, studio, note, date, rating);
         dvdLibrary.addDVD(dvd);
         System.out.println("- " + title +" added to library");
+
+        // Menu options
         System.out.println();
         System.out.println("1 - Add Another DVD");
         System.out.println("0 - Return to Main Menu");
-        int rtrn;
 
-        while(true)
+        // Checks if the user wants to return or add another DVD
+        if(validateReturn())
         {
-            try
-            {
-                rtrn = Integer.parseInt(input.nextLine());
-
-                if(rtrn == 0)
-                {
-                    displayMenu();
-                    break;
-                }
-
-            }catch (NumberFormatException ignored){
-                rtrn = invalidInput;
-            }
-
-            if(rtrn == invalidInput)
-            {
-
-                System.out.print("Please enter 0 to return to the main menu: ");
-            }
-            else
-            {
-                addDVD();
-            }
+            displayMenu();
+        }
+        else
+        {
+            addDVD();
         }
     }
+
+    /**
+     * Gets updated DVD inputs and updates the library
+     * @throws IOException
+     */
     public static void editDVD() throws IOException
     {
         DVD dvd;
         System.out.println("---------------------- EDIT DVD ----------------------");
         viewDVDLibrary(false);
 
+        // Gets the selected DVD object from the user
         System.out.print("Enter the number of the DVD you would like to edit: ");
-
-        int index;
-        while(true)
-        {
-            try
-            {
-                index = Integer.parseInt(input.nextLine());
-
-                if(dvdLibrary.library.containsKey(index))
-                {
-                    break;
-                }
-                else
-                {
-                    System.out.print("Please enter a valid DVD number from the above list: ");
-                }
-
-            }
-            catch (NumberFormatException e)
-            {
-                System.out.print("Please enter a valid DVD number from the above list: ");
-            }
-        }
-
+        int index = validateDVDIndex();
         dvd = dvdLibrary.library.get(index);
 
+        // Loops for as many times as the user wants to edit the DVD object
         loop: while (true)
         {
             displayDVD(index, dvd);
+
+            // Menu options
             System.out.println("Which field would you like edit?");
             System.out.println("1 - Title");
             System.out.println("2 - Release Date");
@@ -159,28 +131,9 @@ public class LibraryUI
             System.out.println("6 - Note");
             System.out.println("0 - Return to Main Menu");
             System.out.print("Field (#): ");
-            int choice;
+            int choice = validateIntInput(0,6);
 
-            while(true)
-            {
-                try{
-                    choice = Integer.parseInt(input.nextLine());
-
-                    if(choice < 0 || choice > 6)
-                    {
-                        System.out.print("Please enter a valid menu option (0, 1, 2, 3, 4, 5 or 6): ");
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                catch(NumberFormatException e)
-                {
-                    System.out.print("Please enter a valid menu option (0, 1, 2, 3, 4, 5 or 6): ");
-                }
-            }
-
+            // Calls the relevant input method dependent on the field the user selected to edit
             switch (choice)
             {
                 case 1 -> dvd.setTitle(getTitleInput());
@@ -195,8 +148,10 @@ public class LibraryUI
                 }
             }
 
+            // Calls the method to update the DVD object in library
             dvdLibrary.editDvd(index,dvd);
 
+            // Checks if the user wants to continue editing the same DVD object
             System.out.print("Would you like to edit another field? (Y/N): ");
             String cont;
             while (true)
@@ -220,159 +175,108 @@ public class LibraryUI
 
         }
 
+        // Menu options
         System.out.println();
         System.out.println("1 - Edit Another DVD");
         System.out.println("0 - Return to Main Menu");
-        int rtrn;
 
-        while(true)
+        // Checks if the user wants to return to the main menu, or edit another DVD object
+        if(validateReturn())
         {
-            try
-            {
-                rtrn = Integer.parseInt(input.nextLine());
-
-                if(rtrn == 0)
-                {
-                    displayMenu();
-                    break;
-                }
-
-            }catch (NumberFormatException ignored){
-                rtrn = invalidInput;
-            }
-
-            if(rtrn == invalidInput)
-            {
-
-                System.out.print("Please enter 0 to return to the main menu: ");
-            }
-            else
-            {
-                editDVD();
-            }
+            displayMenu();
+        }
+        else
+        {
+            editDVD();
         }
     }
+
+    /**
+     * Deletes a specified DVD object
+     * @throws IOException
+     */
     public static void deleteDVD() throws IOException
     {
         System.out.println("--------------------- DELETE DVD ---------------------");
         viewDVDLibrary(false);
 
+        // Gets the index of the specified DVD object and calls the method to delete it
         System.out.print("Enter the number of the DVD you would like to delete: ");
-
-        int index;
-        while(true)
-        {
-            try
-            {
-                index = Integer.parseInt(input.nextLine());
-
-                if(dvdLibrary.library.containsKey(index))
-                {
-                    break;
-                }
-                else
-                {
-                    System.out.print("Please enter a valid DVD number from the above list: ");
-                }
-
-            }
-            catch (NumberFormatException e)
-            {
-                System.out.print("Please enter a valid DVD number from the above list: ");
-            }
-        }
-
-        dvdLibrary.deleteDVD(index);
+        dvdLibrary.deleteDVD(validateDVDIndex());
         System.out.println("- DVD deleted from the library");
 
+        // Menu options
         System.out.println();
         System.out.println("1 - Delete Another DVD");
         System.out.println("0 - Return to Main Menu");
-        int rtrn;
 
-        while(true)
+        // Checks if the user wants to return to the main menu or delete another DVD object
+        if(validateReturn())
         {
-            try
-            {
-                rtrn = Integer.parseInt(input.nextLine());
-
-                if(rtrn == 0)
-                {
-                    displayMenu();
-                    break;
-                }
-
-            }catch (NumberFormatException ignored){
-                rtrn = invalidInput;
-            }
-
-            if(rtrn == invalidInput)
-            {
-
-                System.out.print("Please enter 0 to return to the main menu: ");
-            }
-            else
-            {
-                deleteDVD();
-            }
+            displayMenu();
+        }
+        else
+        {
+            deleteDVD();
         }
     }
 
+    /**
+     * Allows a user to search for a DVD by title
+     * @throws IOException
+     */
     public static void searchDVD() throws IOException
     {
         System.out.println("---------------------- SEARCH DVD ----------------------");
+
+        // Gets the dvd title from the user and calls the method to search the library for it
         System.out.print("Enter the title of the DVD you would like to search for?: ");
         String title = input.nextLine();
-
         DVD dvd = dvdLibrary.searchDvd(title);
 
+        // Checks the result of the search
+        // Tells the user if it was not found, or displays the DVD if it was found
         if(dvd == null)
         {
             System.out.println(title + " not found in library");
         }
         else
         {
-            displayDVD(dvd);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            System.out.println(dvd.getTitle() + " | " + dateFormat.format(dvd.getDate()) + " | " + dvd.getRating() + " | " +
+                    dvd.getDirector() + " | " + dvd.getStudio() + " | " + dvd.getNote());
         }
 
+        // Menu options
         System.out.println();
         System.out.println("1 - Search Again");
         System.out.println("0 - Return to Main Menu");
-        int rtrn;
 
-        while(true)
+        // Checks if the user wants to return to the main menu or search for another DVD
+        if(validateReturn())
         {
-            try
-            {
-                rtrn = Integer.parseInt(input.nextLine());
-
-                if(rtrn == 0)
-                {
-                    displayMenu();
-                    break;
-                }
-
-            }catch (NumberFormatException ignored){
-                rtrn = invalidInput;
-            }
-
-            if(rtrn == invalidInput)
-            {
-
-                System.out.print("Please enter 0 to return to the main menu: ");
-            }
-            else
-            {
-                searchDVD();
-            }
+            displayMenu();
+        }
+        else
+        {
+            searchDVD();
         }
     }
 
+    /**
+     * Displays all DVD objects in the library
+     * @param menu - whether this method was called from the main menu or not
+     * @throws IOException
+     */
     public static void viewDVDLibrary(boolean menu) throws IOException
     {
-        HashMap<Integer, DVD> library = dvdLibrary.getLibrary();
         System.out.println("---------------------- DVD LIST -----------------------");
 
+        // Gets the library from the DataLibrary object
+        HashMap<Integer, DVD> library = dvdLibrary.getLibrary();
+
+        // Checks if the library is empty
+        // Tells the user if it is empty, displays each DVD if it is not empty
         if(library.isEmpty())
         {
             System.out.println(" -- No DVDs in library --");
@@ -386,33 +290,25 @@ public class LibraryUI
             }
         }
 
+        // Checks if the method was called from the main menu
         if(menu)
         {
+            // Menu options
             System.out.println();
             System.out.println("0 - Return to Main Menu");
-            int rtrn;
 
-            while(true)
+            // Checks if the user wants to return to the main menu
+            if(validateReturn())
             {
-                try
-                {
-                    rtrn = Integer.parseInt(input.nextLine());
-
-                    if(rtrn == 0)
-                    {
-                        displayMenu();
-                        break;
-                    }
-
-                }catch (NumberFormatException ignored){}
-
-                System.out.print("Please enter 0 to return to the main menu: ");
+                displayMenu();
             }
-
-
         }
     }
 
+    /**
+     * Gets the title input from the user
+     * @return title
+     */
     public static String getTitleInput()
     {
         System.out.print("Title: ");
@@ -422,6 +318,10 @@ public class LibraryUI
         return title;
     }
 
+    /**
+     * Gets the date input from the user
+     * @return date
+     */
     public static Date getDateInput()
     {
         System.out.print("Release Date (DD/MM/YYYY): ");
@@ -443,6 +343,10 @@ public class LibraryUI
         return date;
     }
 
+    /**
+     * Gets the rating input from the user
+     * @return rating
+     */
     public static MPAARating getRatingInput()
     {
         System.out.println("MPAA Rating");
@@ -452,28 +356,7 @@ public class LibraryUI
         System.out.println("4 - R");
         System.out.println("5 - NC-17");
         System.out.print("Rating (1-5): ");
-
-        int ratingChoice;
-
-        while(true)
-        {
-            try{
-                ratingChoice = Integer.parseInt(input.nextLine());
-
-                if(ratingChoice < 1 || ratingChoice > 5)
-                {
-                    System.out.print("Please enter a valid rating option (1, 2, 3, 4, or 5): ");
-                }
-                else
-                {
-                    break;
-                }
-            }
-            catch(NumberFormatException e)
-            {
-                System.out.print("Please enter a valid rating option (1, 2, 3, 4, or 5): ");
-            }
-        }
+        int ratingChoice = validateIntInput(1,5);
 
         MPAARating rating = null;
         switch (ratingChoice)
@@ -489,6 +372,10 @@ public class LibraryUI
         return rating;
     }
 
+    /**
+     * Gets the director input from the user
+     * @return director
+     */
     public static String getDirectorInput()
     {
         System.out.print("Director: ");
@@ -498,6 +385,10 @@ public class LibraryUI
         return director;
     }
 
+    /**
+     * Gets the studio input from the user
+     * @return studio
+     */
     public static String getStudioInput()
     {
         System.out.print("Studio: ");
@@ -507,6 +398,10 @@ public class LibraryUI
         return studio;
     }
 
+    /**
+     * Gets the note input from the user
+     * @return note
+     */
     public static String getNoteInput()
     {
         System.out.print("Note: ");
@@ -515,6 +410,12 @@ public class LibraryUI
 
         return note;
     }
+
+    /**
+     * Displays a single DVD object with its index
+     * @param i
+     * @param dvd
+     */
     public static void displayDVD(Integer i, DVD dvd)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -522,10 +423,94 @@ public class LibraryUI
                 dvd.getDirector() + " | " + dvd.getStudio() + " | " + dvd.getNote());
     }
 
-    public static void displayDVD(DVD dvd)
+    /**
+     * Validates input for retuning to the main menu
+     * @return if the user wants to return to the main menu or not
+     */
+    public static boolean validateReturn()
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println(dvd.getTitle() + " | " + dateFormat.format(dvd.getDate()) + " | " + dvd.getRating() + " | " +
-                dvd.getDirector() + " | " + dvd.getStudio() + " | " + dvd.getNote());
+        int rtrn;
+        while(true)
+        {
+            try
+            {
+                rtrn = Integer.parseInt(input.nextLine());
+
+                if(rtrn == 0)
+                {
+                    return true;
+                }
+
+            }catch (NumberFormatException ignored){
+                rtrn = invalidInput;
+            }
+
+            if(rtrn == invalidInput)
+            {
+
+                System.out.print("Please enter a valid menu option from above: ");
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Validates an int input
+     * @param lb - lower bound for input
+     * @param ub - upper bound for input
+     * @return choice
+     */
+    public static int validateIntInput(int lb, int ub)
+    {
+        int choice;
+
+        while(true)
+        {
+            try{
+                choice = Integer.parseInt(input.nextLine());
+
+                if(choice >= lb && choice <= ub)
+                {
+                    return choice;
+                }
+            }
+            catch(NumberFormatException e)
+            {
+                continue;
+            }
+
+            System.out.print("Please enter a option from above: ");
+        }
+    }
+
+    /**
+     * Validates an index input
+     * @return a validated DVD index
+     */
+    public static int validateDVDIndex()
+    {
+        int index;
+        while(true)
+        {
+            try
+            {
+                index = Integer.parseInt(input.nextLine());
+
+                if(dvdLibrary.hasIndex(index))
+                {
+                    return index;
+                }
+
+            }
+            catch (NumberFormatException e)
+            {
+                continue;
+            }
+
+            System.out.print("Please enter a valid DVD number from the above list: ");
+        }
     }
 }

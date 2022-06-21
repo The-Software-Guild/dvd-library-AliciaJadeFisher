@@ -100,4 +100,14 @@ public class DVDLibrary
         return null;
     }
 
+    /**
+     * Checks if an index exists in library
+     * @param index - index input from user
+     * @return if the index exists or not
+     */
+    public boolean hasIndex(int index)
+    {
+        return library.containsKey(index);
+    }
+
 }
