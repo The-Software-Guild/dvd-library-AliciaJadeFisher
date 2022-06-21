@@ -48,13 +48,14 @@ public class FileHandler
         {
             Scanner reader = new Scanner(new BufferedReader(new FileReader(fileName)));
             int index = 0;
+
             while(reader.hasNextLine())
             {
                 String currentLine = reader.nextLine();
                 String[] parts = currentLine.split("::");
 
                 library.put(index, new DVD(parts[0], parts[1], parts[2], parts[3],
-                        new SimpleDateFormat("dd/MM/yyyy").parse(parts[4]), MPAARating.valueOf(parts[5])));
+                        new SimpleDateFormat("EEE MMM d HH:mm:ss Z yyyy").parse(parts[4]), MPAARating.valueOf(parts[5])));
 
                 index++;
             }

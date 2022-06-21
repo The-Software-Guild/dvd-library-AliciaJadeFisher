@@ -19,7 +19,7 @@ public class LibraryUI
         displayMenu();
     }
 
-    public static void displayMenu()
+    public static void displayMenu() throws IOException
     {
         viewDVDLibrary();
 
@@ -59,6 +59,7 @@ public class LibraryUI
             case 3 -> deleteDVD();
             default ->
             {
+                dvdLibrary.saveLibrary();
                 System.out.println("Thank you for using DVD Library!");
                 System.out.println("=======================================================");
             }
@@ -80,12 +81,14 @@ public class LibraryUI
             {
                 DVD dvd = library.get(i);
 
-                System.out.println(i + " - " + dvd.getTitle() + " | " + dvd.getDate() + " | " + dvd.getRating() + " | " +
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                System.out.println(i + " - " + dvd.getTitle() + " | " + dateFormat.format(dvd.getDate()) + " | " + dvd.getRating() + " | " +
                         dvd.getDirector() + " | " + dvd.getStudio() + " | " + dvd.getNote() + " | ");
             }
         }
     }
-    public static void addDVD()
+    public static void addDVD() throws IOException
     {
         System.out.println("----------------------- ADD DVD -----------------------");
 
@@ -94,13 +97,12 @@ public class LibraryUI
         System.out.println();
 
         System.out.print("Release Date (DD/MM/YYYY): ");
-        String dateStr = input.nextLine();
         Date date;
         while(true)
         {
             try
             {
-                date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+                date = new SimpleDateFormat("dd/MM/yyyy").parse(input.nextLine());
                 break;
             }
             catch (ParseException e)
@@ -165,6 +167,7 @@ public class LibraryUI
 
         DVD dvd = new DVD(title, director, studio, note, date, rating);
         dvdLibrary.addDVD(dvd);
+        displayMenu();
     }
     public static void editDVD(){}
     public static void deleteDVD(){}
