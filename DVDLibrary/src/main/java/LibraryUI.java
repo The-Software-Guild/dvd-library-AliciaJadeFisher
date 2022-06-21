@@ -1,8 +1,11 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.zip.DataFormatException;
 
 public class LibraryUI
 {
@@ -88,10 +91,80 @@ public class LibraryUI
 
         System.out.print("Title: ");
         String title = input.nextLine();
+        System.out.println();
 
-        System.out.print("Release Date: ");
+        System.out.print("Release Date (DD/MM/YYYY): ");
+        String dateStr = input.nextLine();
+        Date date;
+        while(true)
+        {
+            try
+            {
+                date = new SimpleDateFormat("dd/MM/yyyy").parse(dateStr);
+                break;
+            }
+            catch (ParseException e)
+            {
+                System.out.print("Please enter a valid date (DD/MM/YYYY): ");
+            }
+        }
+        System.out.println();
 
+        System.out.println("MPAA Rating");
+        System.out.println("1 - G");
+        System.out.println("2 - PG");
+        System.out.println("3 - PG-13");
+        System.out.println("4 - R");
+        System.out.println("5 - NC-17");
+        System.out.print("Rating (1-5): ");
 
+        int ratingChoice;
+
+        while(true)
+        {
+            try{
+                ratingChoice = Integer.parseInt(input.nextLine());
+
+                if(ratingChoice < 1 || ratingChoice > 5)
+                {
+                    System.out.print("Please enter a valid rating option (1, 2, 3, 4, or 5): ");
+                }
+                else
+                {
+                    break;
+                }
+            }
+            catch(NumberFormatException e)
+            {
+                System.out.print("Please enter a valid rating option (1, 2, 3, 4, or 5): ");
+            }
+        }
+
+        MPAARating rating = null;
+        switch (ratingChoice)
+        {
+            case 1 -> rating = MPAARating.G;
+            case 2 -> rating = MPAARating.PG;
+            case 3 -> rating = MPAARating.PG13;
+            case 4 -> rating = MPAARating.R;
+            case 5 -> rating = MPAARating.NC17;
+        }
+        System.out.println();
+
+        System.out.print("Director: ");
+        String director = input.nextLine();
+        System.out.println();
+
+        System.out.print("Studio: ");
+        String studio = input.nextLine();
+        System.out.println();
+
+        System.out.print("Note: ");
+        String note = input.nextLine();
+        System.out.println();
+
+        DVD dvd = new DVD(title, director, studio, note, date, rating);
+        dvdLibrary.addDVD(dvd);
     }
     public static void editDVD(){}
     public static void deleteDVD(){}
