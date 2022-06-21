@@ -46,6 +46,19 @@ public class DVDLibrary
         library.put(index,dvd);
     }
 
+    public DVD searchDvd(String title)
+    {
+        for(DVD dvd : library.values())
+        {
+            if(dvd.getTitle().toLowerCase().equals(title.toLowerCase()))
+            {
+                return dvd;
+            }
+        }
+
+        return null;
+    }
+
     public int getIndex(DVD dvd)
     {
         for(int i : library.keySet())
