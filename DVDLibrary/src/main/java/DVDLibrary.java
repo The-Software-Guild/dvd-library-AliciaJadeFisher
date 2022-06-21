@@ -1,9 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DVDLibrary
 {
@@ -34,21 +32,17 @@ public class DVDLibrary
 
     public void addDVD(DVD dvd)
     {
-       int index = library.keySet().size() + 1;
+       int index = library.keySet().size();
        library.put(index, dvd);
     }
 
-    public void deleteDvd(DVD dvd)
+    public void deleteDVD(int index)
     {
-        library.remove(getIndex(dvd));
+        library.remove(index);
     }
 
-    public void editDvd(int index)
+    public void editDvd(int index, DVD dvd)
     {
-        DVD dvd = library.get(index);
-
-        // code to update values here
-
         library.put(index,dvd);
     }
 

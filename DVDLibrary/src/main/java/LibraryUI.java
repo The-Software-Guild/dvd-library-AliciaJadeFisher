@@ -1,11 +1,9 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.zip.DataFormatException;
 
 public class LibraryUI
 {
@@ -169,6 +167,67 @@ public class LibraryUI
         dvdLibrary.addDVD(dvd);
         displayMenu();
     }
-    public static void editDVD(){}
-    public static void deleteDVD(){}
+    public static void editDVD()
+    {
+        System.out.println("---------------------- EDIT DVD ----------------------");
+        viewDVDLibrary();
+
+        System.out.print("Enter the number of the DVD you would like to edit: ");
+
+        int index;
+        while(true)
+        {
+            try
+            {
+                index = Integer.parseInt(input.nextLine());
+
+                if(dvdLibrary.library.containsKey(index))
+                {
+                    break;
+                }
+                else
+                {
+                    System.out.print("Please enter a valid DVD number from the above list: ");
+                }
+
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.print("Please enter a valid DVD number from the above list: ");
+            }
+        }
+    }
+    public static void deleteDVD() throws IOException
+    {
+        System.out.println("--------------------- DELETE DVD ---------------------");
+        viewDVDLibrary();
+
+        System.out.print("Enter the number of the DVD you would like to delete: ");
+
+        int index;
+        while(true)
+        {
+            try
+            {
+                index = Integer.parseInt(input.nextLine());
+
+                if(dvdLibrary.library.containsKey(index))
+                {
+                    break;
+                }
+                else
+                {
+                    System.out.print("Please enter a valid DVD number from the above list: ");
+                }
+
+            }
+            catch (NumberFormatException e)
+            {
+                System.out.print("Please enter a valid DVD number from the above list: ");
+            }
+        }
+
+        dvdLibrary.deleteDVD(index);
+        displayMenu();
+    }
 }
