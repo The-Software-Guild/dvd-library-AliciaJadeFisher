@@ -85,7 +85,7 @@ public class DVDLibrary
     /**
      * Searches the library for dvd based on the title
      * @param title - title input from the user
-     * @return - dvd object if found, null if not found
+     * @return - dvd object if it isfound, null if it is not found
      */
     public DVD searchDvd(String title)
     {
