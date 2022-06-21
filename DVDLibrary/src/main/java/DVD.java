@@ -2,9 +2,9 @@ import java.util.Date;
 
 public class DVD
 {
-    String title, director, studio, note;
-    Date date;
-    MPAARating rating;
+    private String title, director, studio, note;
+    private Date date;
+    private MPAARating rating;
 
     public DVD(String title, String director, String studio, String note, Date date, MPAARating rating)
     {
@@ -21,9 +21,19 @@ public class DVD
         return title;
     }
 
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
     public String getDirector()
     {
         return director;
+    }
+
+    public void setDirector(String director)
+    {
+        this.director = director;
     }
 
     public String getStudio()
@@ -31,9 +41,19 @@ public class DVD
         return studio;
     }
 
+    public void setStudio(String studio)
+    {
+        this.studio = studio;
+    }
+
     public String getNote()
     {
         return note;
+    }
+
+    public void setNote(String note)
+    {
+        this.note = note;
     }
 
     public Date getDate()
@@ -41,8 +61,18 @@ public class DVD
         return date;
     }
 
+    public void setDate(Date date)
+    {
+        this.date = date;
+    }
+
     public MPAARating getRating()
     {
         return rating;
+    }
+
+    public void setRating(MPAARating rating)
+    {
+        this.rating = rating;
     }
 }

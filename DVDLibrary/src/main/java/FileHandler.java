@@ -1,22 +1,36 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class FileHandler
 {
     String fileName;
 
-    public FileHandler(String fileName)
+    public FileHandler(String fileName) throws IOException, ParseException
     {
         this.fileName = fileName;
+        createFile();
     }
 
-    public void writeToFile(List<DVD> text) throws IOException
+    public void createFile() throws IOException, ParseException
+    {
+        File file = new File(fileName);
+        if(file.exists())
+        {
+            readFromFile();
+        }
+        else
+        {
+            file.createNewFile();
+        }
+    }
+
+    public void writeToFile(HashMap<Integer, DVD> library) throws IOException
     {
         PrintWriter writer = new PrintWriter(new FileWriter(fileName));
 
-        for(DVD dvd : text)
+        for(DVD dvd : library.values())
         {
             writer.println(dvd.getTitle() + "::" + dvd.getDirector() + "::" + dvd.getStudio() + "::" +
                     dvd.getNote() + "::" + dvd.getDate() + "::" + dvd.getRating());
@@ -26,17 +40,27 @@ public class FileHandler
         writer.close();
     }
 
-    public List<String> readFromFile() throws FileNotFoundException
+    public HashMap<Integer, DVD> readFromFile() throws FileNotFoundException, ParseException
     {
-        List<String> fileText = new ArrayList<>();
-        Scanner reader = new Scanner(new BufferedReader(new FileReader(fileName)));
+        HashMap<Integer, DVD> library = new HashMap<>();
 
-        while (reader.hasNextLine())
+        if(new File(fileName).length() != 0)
         {
-            fileText.add(reader.nextLine());
-        }
+            Scanner reader = new Scanner(new BufferedReader(new FileReader(fileName)));
+            int index = 0;
+            while(reader.hasNextLine())
+            {
+                String currentLine = reader.nextLine();
+                String[] parts = currentLine.split("::");
 
-        reader.close();
-        return fileText;
+                library.put(index, new DVD(parts[0], parts[1], parts[2], parts[3],
+                        new SimpleDateFormat("dd/MM/yyyy").parse(parts[4]), MPAARating.valueOf(parts[5])));
+
+                index++;
+            }
+
+            reader.close();
+        }
+        return library;
     }
 }
