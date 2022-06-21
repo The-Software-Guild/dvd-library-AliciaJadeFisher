@@ -1,11 +1,13 @@
+package dto;
+
 import java.util.Date;
 
 /**
- * Class which represents a single DVD object
+ * Class which represents a single dto.DVD object
  */
 public class DVD
 {
-    // Attributes of DVD
+    // Attributes of dto.DVD
     private String title, director, studio, note;
     private Date date;
     private MPAARating rating;

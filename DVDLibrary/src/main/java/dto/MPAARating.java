@@ -1,5 +1,7 @@
+package dto;
+
 /**
- * enum for the field rating in DVD
+ * enum for the field rating in dto.DVD
  */
 public enum MPAARating
 {

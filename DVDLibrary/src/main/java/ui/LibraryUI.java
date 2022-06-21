@@ -1,3 +1,9 @@
+package ui;
+
+import controller.DVDLibrary;
+import dto.DVD;
+import dto.MPAARating;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +17,7 @@ import java.util.Scanner;
 public class LibraryUI
 {
     static int invalidInput = -99;
-    static DVDLibrary dvdLibrary;
+     static DVDLibrary dvdLibrary;
     static Scanner input = new Scanner(System.in);
 
 
@@ -24,7 +30,7 @@ public class LibraryUI
     public static void main(String[] args) throws IOException, ParseException
     {
         dvdLibrary = new DVDLibrary();
-        System.out.println("===================== DVD LIBRARY =====================");
+        System.out.println("===================== dto.DVD LIBRARY =====================");
         displayMenu();
     }
 
@@ -37,9 +43,9 @@ public class LibraryUI
         // Menu options
         System.out.println("-----------------------------");
         System.out.println("1 - View Library");
-        System.out.println("2 - Add DVD to Library");
-        System.out.println("3 - Edit DVD in Library");
-        System.out.println("4 - Remove DVD from Library");
+        System.out.println("2 - Add dto.DVD to Library");
+        System.out.println("3 - Edit dto.DVD in Library");
+        System.out.println("4 - Remove dto.DVD from Library");
         System.out.println("5 - Search Library");
         System.out.println("0 - Exit");
         System.out.println("-----------------------------");
@@ -58,21 +64,21 @@ public class LibraryUI
             {
                 // Calls the method to save the library and exits the program
                 dvdLibrary.saveLibrary();
-                System.out.println("Thank you for using DVD Library!");
+                System.out.println("Thank you for using dto.DVD Library!");
                 System.out.println("=======================================================");
             }
         }
     }
 
     /**
-     * Gets the new DVD inputs and adds it to the library
+     * Gets the new dto.DVD inputs and adds it to the library
      * @throws IOException
      */
     public static void addDVD() throws IOException
     {
-        System.out.println("----------------------- ADD DVD -----------------------");
+        System.out.println("----------------------- ADD dto.DVD -----------------------");
 
-        // Get DVD inputs from the user
+        // Get dto.DVD inputs from the user
         String title = getTitleInput();
         Date date = getDateInput();
         MPAARating rating = getRatingInput();
@@ -80,17 +86,17 @@ public class LibraryUI
         String studio = getStudioInput();
         String note = getNoteInput();
 
-        // Creates a new DVD object and calls the method to add it to the library
+        // Creates a new dto.DVD object and calls the method to add it to the library
         DVD dvd = new DVD(title, director, studio, note, date, rating);
         dvdLibrary.addDVD(dvd);
         System.out.println("- " + title +" added to library");
 
         // Menu options
         System.out.println();
-        System.out.println("1 - Add Another DVD");
+        System.out.println("1 - Add Another dto.DVD");
         System.out.println("0 - Return to Main Menu");
 
-        // Checks if the user wants to return or add another DVD
+        // Checks if the user wants to return or add another dto.DVD
         if(validateReturn())
         {
             displayMenu();
@@ -102,21 +108,21 @@ public class LibraryUI
     }
 
     /**
-     * Gets updated DVD inputs and updates the library
+     * Gets updated dto.DVD inputs and updates the library
      * @throws IOException
      */
     public static void editDVD() throws IOException
     {
         DVD dvd;
-        System.out.println("---------------------- EDIT DVD ----------------------");
+        System.out.println("---------------------- EDIT dto.DVD ----------------------");
         viewDVDLibrary(false);
 
-        // Gets the selected DVD object from the user
-        System.out.print("Enter the number of the DVD you would like to edit: ");
+        // Gets the selected dto.DVD object from the user
+        System.out.print("Enter the number of the dto.DVD you would like to edit: ");
         int index = validateDVDIndex();
-        dvd = dvdLibrary.library.get(index);
+        dvd = dvdLibrary.getLibrary().get(index);
 
-        // Loops for as many times as the user wants to edit the DVD object
+        // Loops for as many times as the user wants to edit the dto.DVD object
         loop: while (true)
         {
             displayDVD(index, dvd);
@@ -148,10 +154,10 @@ public class LibraryUI
                 }
             }
 
-            // Calls the method to update the DVD object in library
+            // Calls the method to update the dto.DVD object in library
             dvdLibrary.editDvd(index,dvd);
 
-            // Checks if the user wants to continue editing the same DVD object
+            // Checks if the user wants to continue editing the same dto.DVD object
             System.out.print("Would you like to edit another field? (Y/N): ");
             String cont;
             while (true)
@@ -177,10 +183,10 @@ public class LibraryUI
 
         // Menu options
         System.out.println();
-        System.out.println("1 - Edit Another DVD");
+        System.out.println("1 - Edit Another dto.DVD");
         System.out.println("0 - Return to Main Menu");
 
-        // Checks if the user wants to return to the main menu, or edit another DVD object
+        // Checks if the user wants to return to the main menu, or edit another dto.DVD object
         if(validateReturn())
         {
             displayMenu();
@@ -192,25 +198,25 @@ public class LibraryUI
     }
 
     /**
-     * Deletes a specified DVD object
+     * Deletes a specified dto.DVD object
      * @throws IOException
      */
     public static void deleteDVD() throws IOException
     {
-        System.out.println("--------------------- DELETE DVD ---------------------");
+        System.out.println("--------------------- DELETE dto.DVD ---------------------");
         viewDVDLibrary(false);
 
-        // Gets the index of the specified DVD object and calls the method to delete it
-        System.out.print("Enter the number of the DVD you would like to delete: ");
+        // Gets the index of the specified dto.DVD object and calls the method to delete it
+        System.out.print("Enter the number of the dto.DVD you would like to delete: ");
         dvdLibrary.deleteDVD(validateDVDIndex());
-        System.out.println("- DVD deleted from the library");
+        System.out.println("- dto.DVD deleted from the library");
 
         // Menu options
         System.out.println();
-        System.out.println("1 - Delete Another DVD");
+        System.out.println("1 - Delete Another dto.DVD");
         System.out.println("0 - Return to Main Menu");
 
-        // Checks if the user wants to return to the main menu or delete another DVD object
+        // Checks if the user wants to return to the main menu or delete another dto.DVD object
         if(validateReturn())
         {
             displayMenu();
@@ -222,20 +228,20 @@ public class LibraryUI
     }
 
     /**
-     * Allows a user to search for a DVD by title
+     * Allows a user to search for a dto.DVD by title
      * @throws IOException
      */
     public static void searchDVD() throws IOException
     {
-        System.out.println("---------------------- SEARCH DVD ----------------------");
+        System.out.println("---------------------- SEARCH dto.DVD ----------------------");
 
         // Gets the dvd title from the user and calls the method to search the library for it
-        System.out.print("Enter the title of the DVD you would like to search for?: ");
+        System.out.print("Enter the title of the dto.DVD you would like to search for?: ");
         String title = input.nextLine();
         DVD dvd = dvdLibrary.searchDvd(title);
 
         // Checks the result of the search
-        // Tells the user if it was not found, or displays the DVD if it was found
+        // Tells the user if it was not found, or displays the dto.DVD if it was found
         if(dvd == null)
         {
             System.out.println(title + " not found in library");
@@ -252,7 +258,7 @@ public class LibraryUI
         System.out.println("1 - Search Again");
         System.out.println("0 - Return to Main Menu");
 
-        // Checks if the user wants to return to the main menu or search for another DVD
+        // Checks if the user wants to return to the main menu or search for another dto.DVD
         if(validateReturn())
         {
             displayMenu();
@@ -264,19 +270,19 @@ public class LibraryUI
     }
 
     /**
-     * Displays all DVD objects in the library
+     * Displays all dto.DVD objects in the library
      * @param menu - whether this method was called from the main menu or not
      * @throws IOException
      */
     public static void viewDVDLibrary(boolean menu) throws IOException
     {
-        System.out.println("---------------------- DVD LIST -----------------------");
+        System.out.println("---------------------- dto.DVD LIST -----------------------");
 
         // Gets the library from the DataLibrary object
         HashMap<Integer, DVD> library = dvdLibrary.getLibrary();
 
         // Checks if the library is empty
-        // Tells the user if it is empty, displays each DVD if it is not empty
+        // Tells the user if it is empty, displays each dto.DVD if it is not empty
         if(library.isEmpty())
         {
             System.out.println(" -- No DVDs in library --");
@@ -412,7 +418,7 @@ public class LibraryUI
     }
 
     /**
-     * Displays a single DVD object with its index
+     * Displays a single dto.DVD object with its index
      * @param i
      * @param dvd
      */
@@ -488,7 +494,7 @@ public class LibraryUI
 
     /**
      * Validates an index input
-     * @return a validated DVD index
+     * @return a validated dto.DVD index
      */
     public static int validateDVDIndex()
     {
@@ -510,7 +516,7 @@ public class LibraryUI
                 continue;
             }
 
-            System.out.print("Please enter a valid DVD number from the above list: ");
+            System.out.print("Please enter a valid dto.DVD number from the above list: ");
         }
     }
 }

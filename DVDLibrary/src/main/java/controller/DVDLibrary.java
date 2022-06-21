@@ -1,17 +1,22 @@
+package controller;
+
+import dto.DVD;
+import dao.FileHandler;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 
 /**
- * Class which represents the DVD Library
+ * Class which represents the dto.DVD Library
  */
 public class DVDLibrary
 {
     int indexNotFound = -99;
 
-    // Attributes of DVDLibrary
-    HashMap<Integer,DVD> library;
+    // Attributes of controller.DVDLibrary
+    HashMap<Integer, DVD> library;
     FileHandler handler;
 
     /**
@@ -21,7 +26,7 @@ public class DVDLibrary
      */
     public DVDLibrary() throws IOException, ParseException
     {
-        handler = new FileHandler("DVDLibrary.txt");
+        handler = new FileHandler("controller.DVDLibrary.txt");
         readLibrary();
     }
 
@@ -35,7 +40,7 @@ public class DVDLibrary
     }
 
     /**
-     * Uses the FileHandler to read the file
+     * Uses the dao.FileHandler to read the file
      * @throws FileNotFoundException
      * @throws ParseException
      */
@@ -45,7 +50,7 @@ public class DVDLibrary
     }
 
     /**
-     * Uses the FileHandler to write to the file
+     * Uses the dao.FileHandler to write to the file
      * @throws IOException
      */
     public void saveLibrary() throws IOException
@@ -54,7 +59,7 @@ public class DVDLibrary
     }
 
     /**
-     * Adds a new DVD to the library
+     * Adds a new dto.DVD to the library
      * @param dvd - dvd object input from the user
      */
     public void addDVD(DVD dvd)
@@ -64,7 +69,7 @@ public class DVDLibrary
     }
 
     /**
-     * Deletes a DVD from the library
+     * Deletes a dto.DVD from the library
      * @param index - library index input from the user
      */
     public void deleteDVD(int index)
@@ -73,7 +78,7 @@ public class DVDLibrary
     }
 
     /**
-     * Updates a DVD in the library
+     * Updates a dto.DVD in the library
      * @param index - library index input from the user
      * @param dvd - dvd object input from the user
      */

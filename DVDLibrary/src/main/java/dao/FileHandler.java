@@ -1,3 +1,8 @@
+package dao;
+
+import dto.DVD;
+import dto.MPAARating;
+
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,7 +79,7 @@ public class FileHandler
         HashMap<Integer, DVD> library = new HashMap<>();
 
         // Loops through each line of the file
-        // Splits each line into it's parts and saves them as a DVD object, before putting the object into the HashMap
+        // Splits each line into it's parts and saves them as a dto.DVD object, before putting the object into the HashMap
         if(new File(fileName).length() != 0)
         {
             Scanner reader = new Scanner(new BufferedReader(new FileReader(fileName)));
