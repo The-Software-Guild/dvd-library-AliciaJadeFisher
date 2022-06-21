@@ -81,7 +81,38 @@ public class LibraryUI
 
         DVD dvd = new DVD(title, director, studio, note, date, rating);
         dvdLibrary.addDVD(dvd);
-        displayMenu();
+        System.out.println("- " + title +" added to library");
+        System.out.println();
+        System.out.println("1 - Add Another DVD");
+        System.out.println("0 - Return to Main Menu");
+        int rtrn;
+
+        while(true)
+        {
+            try
+            {
+                rtrn = Integer.parseInt(input.nextLine());
+
+                if(rtrn == 0)
+                {
+                    displayMenu();
+                    break;
+                }
+
+            }catch (NumberFormatException ignored){
+                rtrn = invalidInput;
+            }
+
+            if(rtrn == invalidInput)
+            {
+
+                System.out.print("Please enter 0 to return to the main menu: ");
+            }
+            else
+            {
+                addDVD();
+            }
+        }
     }
     public static void editDVD() throws IOException
     {
@@ -189,7 +220,37 @@ public class LibraryUI
 
         }
 
-        displayMenu();
+        System.out.println();
+        System.out.println("1 - Edit Another DVD");
+        System.out.println("0 - Return to Main Menu");
+        int rtrn;
+
+        while(true)
+        {
+            try
+            {
+                rtrn = Integer.parseInt(input.nextLine());
+
+                if(rtrn == 0)
+                {
+                    displayMenu();
+                    break;
+                }
+
+            }catch (NumberFormatException ignored){
+                rtrn = invalidInput;
+            }
+
+            if(rtrn == invalidInput)
+            {
+
+                System.out.print("Please enter 0 to return to the main menu: ");
+            }
+            else
+            {
+                editDVD();
+            }
+        }
     }
     public static void deleteDVD() throws IOException
     {
@@ -222,7 +283,39 @@ public class LibraryUI
         }
 
         dvdLibrary.deleteDVD(index);
-        displayMenu();
+        System.out.println("- DVD deleted from the library");
+
+        System.out.println();
+        System.out.println("1 - Delete Another DVD");
+        System.out.println("0 - Return to Main Menu");
+        int rtrn;
+
+        while(true)
+        {
+            try
+            {
+                rtrn = Integer.parseInt(input.nextLine());
+
+                if(rtrn == 0)
+                {
+                    displayMenu();
+                    break;
+                }
+
+            }catch (NumberFormatException ignored){
+                rtrn = invalidInput;
+            }
+
+            if(rtrn == invalidInput)
+            {
+
+                System.out.print("Please enter 0 to return to the main menu: ");
+            }
+            else
+            {
+                deleteDVD();
+            }
+        }
     }
 
     public static void searchDVD() throws IOException
