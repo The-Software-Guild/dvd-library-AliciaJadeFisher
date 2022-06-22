@@ -7,7 +7,9 @@ import java.util.Map;
 
 public interface DVDLibraryDao
 {
-    DVD addDvd(Integer index, DVD dvd) throws DVDLibraryDaoException, ParseException;
+    DVD addDvd(DVD dvd) throws DVDLibraryDaoException, ParseException;
+
+    DVD editDvd(Integer index, DVD dvd) throws DVDLibraryDaoException, ParseException;
 
     Map<Integer, DVD> getAllDVDs() throws DVDLibraryDaoException, ParseException;
 

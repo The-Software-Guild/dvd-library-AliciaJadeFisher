@@ -25,14 +25,22 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao
      * @throws ParseException
      */
     @Override
-    public DVD addDvd(Integer index, DVD dvd) throws DVDLibraryDaoException, ParseException
+    public DVD addDvd(DVD dvd) throws DVDLibraryDaoException, ParseException
     {
         readLibrary();
-        DVD newDVD = dvdLibrary.put(index, dvd);
+        DVD newDVD = dvdLibrary.put(dvdLibrary.size(), dvd);
         writeLibrary();
         return newDVD;
     }
 
+    @Override
+    public DVD editDvd(Integer index, DVD dvd) throws DVDLibraryDaoException, ParseException
+    {
+        readLibrary();
+        DVD editedDVD = dvdLibrary.put(index, dvd);
+        writeLibrary();
+        return editedDVD;
+    }
     /**
      * Gets all DVD objects in the HashMap
      * @return a HashMap of all DVD Objects

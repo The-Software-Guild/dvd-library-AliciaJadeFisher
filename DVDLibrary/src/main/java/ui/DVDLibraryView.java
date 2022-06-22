@@ -29,10 +29,10 @@ public class DVDLibraryView
     {
         io.print("-----------------------------");
         io.print("1 - View Library");
-        io.print("2 - Add dto.DVD to Library");
-        io.print("3 - Edit dto.DVD in Library");
-        io.print("4 - Remove dto.DVD from Library");
-        io.print("5 - Search Library");
+        io.print("2 - Add DVD to Library");
+        io.print("3 - Edit DVD in Library");
+        io.print("4 - Remove DVD from Library");
+        io.print("5 - Search Library for a DVD");
         io.print("0 - Exit");
         io.print("-----------------------------");
 
@@ -47,13 +47,13 @@ public class DVDLibraryView
     public DVD getDVDInfo() throws ParseException
     {
         // Get details from user
-        String title = io.readString("Title: ");
-        Date date = date = new SimpleDateFormat("dd/MM/yyyy").parse(io.readString("Release Date (dd-mm-yyyy): "));
-        int ratingInt = io.readInt("MPAA Rating\n1 - G\n2 - PG\n3 - PG-13\n4 - R\n5 - NC-17\n Rating (1-5): "
+        String title = io.readString("Title ");
+        Date date = date = new SimpleDateFormat("dd/MM/yyyy").parse(io.readString("Release Date (dd/mm/yyyy)"));
+        int ratingInt = io.readInt("MPAA Rating\n1 - G\n2 - PG\n3 - PG-13\n4 - R\n5 - NC-17\n Rating (1-5)"
                 , 1 ,5);
-        String director = io.readString("Director: ");
-        String studio = io.readString("Production Studio: ");
-        String note = io.readString("Note: ");
+        String director = io.readString("Director");
+        String studio = io.readString("Production Studio");
+        String note = io.readString("Note");
 
         // Convert rating from int to enum value
         MPAARating rating = null;
@@ -155,12 +155,22 @@ public class DVDLibraryView
 
     public void displayDisplayDVDBanner()
     {
-        io.print("--------------------- DISPLAY DVD ---------------------");
+        io.print("---------------------- SEARCH DVD ---------------------");
+    }
+
+    public void displayDisplayAllBanner()
+    {
+        io.print("----------------------- ALL DVDS -----------------------");
     }
 
     public void displayAddSuccessBanner()
     {
-        io.readString("Student successfully created. Please hit enter to continue.");
+        io.readString("DVD successfully created. Please hit enter to continue.");
+    }
+
+    public void displayEditSuccessBanner()
+    {
+        io.readString("DVD successfully edited. Please hit enter to continue.");
     }
 
     public void displayEntryBanner()
