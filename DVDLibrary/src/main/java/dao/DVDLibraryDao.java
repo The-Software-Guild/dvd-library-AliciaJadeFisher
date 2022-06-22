@@ -15,5 +15,7 @@ public interface DVDLibraryDao
 
     DVD getDVD(Integer index) throws DVDLibraryDaoException, ParseException;
 
+    DVD searchDVD(String title)  throws DVDLibraryDaoException, ParseException;
+
     DVD removeDVD(Integer index) throws DVDLibraryDaoException, ParseException;
 }

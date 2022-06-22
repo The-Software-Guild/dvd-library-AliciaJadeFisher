@@ -93,8 +93,8 @@ public class DVDLibraryController
     private void searchDVD() throws DVDLibraryDaoException, ParseException
     {
         view.displayDisplayDVDBanner();
-        int index = view.getDVDIdChoice();
-        view.displayDVD(dao.getDVD(index));
+        String title = view.getDVDTitleChoice();
+        view.displayDVD(dao.searchDVD(title));
     }
 
     private void entryMessage()

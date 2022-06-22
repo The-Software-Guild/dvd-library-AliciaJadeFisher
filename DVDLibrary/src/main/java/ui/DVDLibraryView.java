@@ -97,6 +97,15 @@ public class DVDLibraryView
     }
 
     /**
+     * Gets a DVD id input from the suer
+     * @return DVD id
+     */
+    public String getDVDTitleChoice()
+    {
+        return io.readString("Please enter the DVD Title: ");
+    }
+
+    /**
      * Displays the info for a single DVD
      * @param dvd - a singld DVD object
      */

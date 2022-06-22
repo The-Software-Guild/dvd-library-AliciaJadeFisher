@@ -18,7 +18,6 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao
 
     /**
      * Adds a DVD object to the HashMap and save the changes to the file
-     * @param index - index of DVD object
      * @param dvd - DVD object to add
      * @return - DVD object added to HashMap
      * @throws DVDLibraryDaoException
@@ -66,6 +65,22 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao
     {
         readLibrary();
         return dvdLibrary.get(index);
+    }
+
+    @Override
+    public DVD searchDVD(String title) throws DVDLibraryDaoException, ParseException
+    {
+        readLibrary();
+
+        for(DVD dvd: dvdLibrary.values())
+        {
+            if(dvd.getTitle().toLowerCase().equals(title.toLowerCase()))
+            {
+                return dvd;
+            }
+        }
+
+        return null;
     }
 
     /**
