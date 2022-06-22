@@ -30,7 +30,7 @@ public class LibraryUI
     public static void main(String[] args) throws IOException, ParseException
     {
         dvdLibrary = new DVDLibrary();
-        System.out.println("===================== dto.DVD LIBRARY =====================");
+        System.out.println("===================== DVD LIBRARY =====================");
         displayMenu();
     }
 
@@ -76,7 +76,7 @@ public class LibraryUI
      */
     public static void addDVD() throws IOException
     {
-        System.out.println("----------------------- ADD dto.DVD -----------------------");
+        System.out.println("----------------------- ADD DVD -----------------------");
 
         // Get dto.DVD inputs from the user
         String title = getTitleInput();
