@@ -59,7 +59,7 @@ public class DVDLibraryController
 
     private int getMenuSelection()
     {
-        return view.printMainMenuAndGerSelection();
+        return view.printMainMenuAndGetSelection();
     }
 
     private void listDvds() throws DVDLibraryDaoException, ParseException

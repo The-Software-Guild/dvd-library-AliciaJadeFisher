@@ -25,7 +25,7 @@ public class DVDLibraryView
      * Displays the main menu to the user and returns their choice
      * @return int representing the menu choice
      */
-    public int printMainMenuAndGerSelection()
+    public int printMainMenuAndGetSelection()
     {
         io.print("-----------------------------");
         io.print("1 - View Library");
