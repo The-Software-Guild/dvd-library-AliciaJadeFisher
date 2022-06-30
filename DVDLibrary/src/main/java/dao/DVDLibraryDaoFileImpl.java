@@ -6,6 +6,7 @@ import dto.MPAARating;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -13,8 +14,18 @@ import java.util.Scanner;
 public class DVDLibraryDaoFileImpl implements DVDLibraryDao
 {
     private Map<Integer, DVD> dvdLibrary = new HashMap<>();
-    public static final String LIBRARY_FILE = "DVDLibrary.txt";
-    public static final String DELIMITER = "::";
+    private final String LIBRARY_FILE;
+    private static final String DELIMITER = "::";
+
+    public DVDLibraryDaoFileImpl()
+    {
+        LIBRARY_FILE = "DVDLibrary.txt";
+    }
+
+    public DVDLibraryDaoFileImpl(String libraryTextFile)
+    {
+        LIBRARY_FILE = libraryTextFile;
+    }
 
     /**
      * Adds a DVD object to the HashMap and save the changes to the file
@@ -171,8 +182,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao
     {
         // Splits the text on the delimiter and creates a new DVD object from the split parts
         String[] dvdParts = dvdText.split(DELIMITER);
-        return new DVD(dvdParts[0], dvdParts[1], dvdParts[2], dvdParts[3],
-                new SimpleDateFormat("EEE MMM d HH:mm:ss Z yyyy").parse(dvdParts[4]), MPAARating.valueOf(dvdParts[5]));
+        return new DVD(dvdParts[0], dvdParts[1], dvdParts[2], dvdParts[3], LocalDate.parse(dvdParts[4]), MPAARating.valueOf(dvdParts[5]));
     }
 
     /**

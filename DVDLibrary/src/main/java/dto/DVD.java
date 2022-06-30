@@ -1,5 +1,6 @@
 package dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ public class DVD
 {
     // Attributes of dto.DVD
     private String title, director, studio, note;
-    private Date date;
+    private LocalDate date;
     private MPAARating rating;
 
     /**
@@ -21,7 +22,7 @@ public class DVD
      * @param date - dvd release date
      * @param rating - MPAA rating
      */
-    public DVD(String title, String director, String studio, String note, Date date, MPAARating rating)
+    public DVD(String title, String director, String studio, String note, LocalDate date, MPAARating rating)
     {
         this.title = title;
         this.director = director;
@@ -107,7 +108,7 @@ public class DVD
      * Retrieves the dvd date
      * @return date
      */
-    public Date getDate()
+    public LocalDate getDate()
     {
         return date;
     }
@@ -116,7 +117,7 @@ public class DVD
      * Sets the dvd date
      * @param date - date input from the user
      */
-    public void setDate(Date date)
+    public void setDate(LocalDate date)
     {
         this.date = date;
     }
@@ -137,5 +138,18 @@ public class DVD
     public void setRating(MPAARating rating)
     {
         this.rating = rating;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj.getClass().equals(DVD.class))
+        {
+            DVD dvd = (DVD) obj;
+            return getTitle().equals(dvd.getTitle()) && getDirector().equals(dvd.getDirector())
+                    && getStudio().equals(dvd.getStudio()) && getNote().equals(dvd.getNote())
+                    && getDate().equals(dvd.getDate()) && getRating().equals(dvd.getRating());
+        }
+        return false;
     }
 }

@@ -1,8 +1,12 @@
 package dvdlibrary;
 
 import controller.DVDLibraryController;
+import dao.DVDLibraryAuditDao;
+import dao.DVDLibraryAuditDaoFileImpl;
 import dao.DVDLibraryDao;
 import dao.DVDLibraryDaoFileImpl;
+import service.DVDLibraryServiceLayer;
+import service.DVDLibraryServiceLayerImpl;
 import ui.DVDLibraryView;
 import ui.UserIO;
 import ui.UserIOConsoleImpl;
@@ -34,8 +38,10 @@ public class App
         UserIO uio = new UserIOConsoleImpl();
         DVDLibraryView view = new DVDLibraryView(uio);
         DVDLibraryDao dao = new DVDLibraryDaoFileImpl();
+        DVDLibraryAuditDao auditDao = new DVDLibraryAuditDaoFileImpl();
+        DVDLibraryServiceLayer service = new DVDLibraryServiceLayerImpl(dao, auditDao);
+        DVDLibraryController controller = new DVDLibraryController(view,service);
 
-        DVDLibraryController controller = new DVDLibraryController(view,dao);
         controller.run();
     }
 }

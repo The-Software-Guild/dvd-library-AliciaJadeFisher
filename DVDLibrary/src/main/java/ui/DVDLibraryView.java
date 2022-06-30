@@ -5,6 +5,7 @@ import dto.MPAARating;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class DVDLibraryView
     {
         // Get details from user
         String title = io.readString("Title ");
-        Date date = date = new SimpleDateFormat("dd/MM/yyyy").parse(io.readString("Release Date (dd/mm/yyyy)"));
+        LocalDate date = LocalDate.parse(io.readString("Release Date (dd/mm/yyyy)"));
         int ratingInt = io.readInt("MPAA Rating\n1 - G\n2 - PG\n3 - PG-13\n4 - R\n5 - NC-17\n Rating (1-5)"
                 , 1 ,5);
         String director = io.readString("Director");
